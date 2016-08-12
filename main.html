@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<body> <!--A bunch of junk code for testing purposs-->
+		<marquee>This is &euro;500.</marquee>
+		<p id="test">That is $909.34</p>
+		<p>My waifu is &euro;02.</p>
+		<p><img src="http://media2.s-nbcnews.com/i/streams/2014/June/140605/2D274906032272-today-fat-cat-creation-140605-post-tease.jpg" width="500" height="281"></p>
+		<p>MY ORGANS ARE FOR SALE FOR &euro;9234</p>
+	
+	<!--Gathers the currency rates instead of us crying over webscraping-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+	
+	<script>
+		// this line is us trying to test the conversion method -- this will only work when you manually input the number when calling the method
+		var tempPrice = document.getElementById("test"); //this is wrong, but keep for reference
+		conversion(tempPrice, 'USD', 'EUR'); //doesn't work
+		conversion('2.99', 'USD', 'EUR'); //works
+		
+		/*
+		function tab_retrieval(){
+			//Jen: Actually I wrote some code in the popup.js file that SHOULD, emphasis "SHOULD" work but who knows
+		}
+		*/
+		
+		/*ERRORS THAT KEEPS HAPPENING
+		 *keeps saying that body is not defined
+		 *used to pass the node a null, but that have an undefined error
+		 */
+		 //a variable named node that collects the DOM element, the body
+		//var node = document.getElementsByTagName("body");  
+		//ok like so this method isn't working at all and I need it to pass a not-boolean so
+		/*function findPrice(node) {
+			node = node || document.body.querySelectorAll(":not(script)");
+			var text = node.innerText,
+				regex = /^\d+(,\d{1,2})?$/g
+				///\$\s*[0-9,]+(?:\s*\.\s*\d{2})?/g;
+			
+			if (typeof regex === "undefined")
+			{
+				alert("REGEX IS UNDEFINED AND I AM CRYING");
+			}
+			
+			var match = text.match(regex);
+				
+			console.log(match);
+				
+			if (match) {
+				var children = node.children, l = children.length, i;
+				console.log(children);
+				for(i = 0; i < l; i++) {
+					if( findPrice(children[i])) {
+						return children[i];
+					}
+				}
+				// if no children matched, then this is the narrowest container
+				return console.log(node);
+			}
+			else return false;
+		}
+		
+		var result = findPrice(body);
+		*/
+		
+		//trial, but not working
+		function findPrice(string, c1)
+		{
+			//gets rid of commas
+			var comma = c1.indexOf(',') != -1;
+			c1 = c1.replace(/,/g,'');
+			
+			//reinserts commas
+			if (comma)
+			{
+				var split = value.split(".");
+				value = split[0].replace(/(\d)(?=(\d{3}+$)/g, "$1, ");
+				if (split.length > 1)
+					value += "."+split[1];
+			}
+			return value;
+		}
+		
+		
+		
+		//THIS IS 100% WORKING, THANK GOODNESS!!
+		function conversion(price, base, cur) {
+
+			$.ajax({
+			   type: 'GET',
+			   url: 'http://api.fixer.io/latest?base=' + base,
+			   success: function(json) {
+				console.log(json.rates[cur]*price);
+			   }
+			   
+			});
+		}
+		/* Is what it needs to be
+		* function conversion(price, base, cur)
+		*{
+			$.ajax({
+			type: 'GET',
+			url: 'http://api.fixer.io/latest?base=' + base,
+			success: function(json)
+			{
+				return (json.rates[cur]*price);
+			}
+			 }
+		}
+		*/
+		
+		changePrice(findPrice(smth,smmth), conversion(findPrice(smth, smmth), 'EUR', 'USD'));
+		
+		function changePrice(orgPrice, conPrice)
+		//you know this code is written by Jennifer 'cause the brackets are in the right place
+		//TOTAL WIP
+		{
+			var str = document.getElementById("test").innerHTML; //still need to pull from original website
+			var repl = str.match(/orgPrice/g);
+			str.replace(str, conPrice);
+		}
+	</script>
+	</body>
+</html>
+
